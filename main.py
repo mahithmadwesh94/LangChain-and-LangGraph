@@ -3,6 +3,9 @@ import os
 from dotenv import load_dotenv
 from langchain_core.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
+from langchain_ollama import ChatOllama
+
+# langChain_smith.trace_langchain()
 
 load_dotenv()
 
@@ -31,9 +34,10 @@ given the following information {information} about a person I want you to creat
         input_variables=["information"], template=summary_template
     )
 
-    llm = ChatOpenAI(model="gpt-5.5", temperature=0)
+    # llm = ChatOpenAI(model="gpt-5.5", temperature=0)
+    llm = ChatOllama(model="gpt-oss:latest", temperature=0)
     chain = summary_prompt_template | llm
-    result = chain.invoke({"information": information})
+    result = chain.invoke({"info": information})
 
     print(result.content)
 
