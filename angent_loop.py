@@ -1,7 +1,6 @@
 from dotenv import load_dotenv
-from langchain.chat_models import init_chat_model
-from langchain_core.messages import HumanMessage, SystemMessage,ToolMessage
-from langchain_core.tools import tool
+
+import Ollama
 from langsmith import traceable
 
 load_dotenv()
@@ -9,14 +8,14 @@ load_dotenv()
 max_iterations = 10
 modelName = 'gpt-oss:latest'
 
-@tool
+@traceable(run_type="tool")
 def get_product_price(product_name: str) -> float:
     """Seach Tool to get price of a product from the catalog"""
     print(f"Searching for {product_name} in the catalog")
     prices = {"laptop": 1029.99, "mouse": 10.99, "keyboard": 20.99}
     return prices[product_name]
 
-@tool
+@traceable(run_type="tool")
 def get_product_discount(category: str,price: float) -> float:
     """Seach Tool to get discount of a product from the catalog"""
     print(f"Applying discount for {category} in the catalog")
